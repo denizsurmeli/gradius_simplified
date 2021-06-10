@@ -139,10 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MovingSpaceObject.h" />
     <ClInclude Include="olcSimpleEngine.h" />
     <ClInclude Include="SpaceObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MovingSpaceObject.cpp" />
     <ClCompile Include="olcSimpleEngine.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpaceObject.cpp" />

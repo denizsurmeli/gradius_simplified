@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="MovingSpaceObject.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="SpaceObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MovingSpaceObject.cpp" />

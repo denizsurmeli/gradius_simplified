@@ -22,7 +22,7 @@ protected:
 public:
 	MovingSpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* spriteRef, double speed);
 	virtual void move(Direction direction, float elapsedTime);
-	explicit virtual void move() = 0;
+	explicit virtual void move(float elapsedTime) = 0;
 	
 };
 

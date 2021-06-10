@@ -7,7 +7,7 @@ class Asteroid :
 
 {
 public:
-    Asteroid(double dimX, double dimY, olc::Sprite* sprite,double speed);
-    explicit void move(float elapsedTime) override;
+    Asteroid(int dimX, int dimY, olc::Sprite* sprite,double speed);
+    void move(float elapsedTime) override;
 };
 

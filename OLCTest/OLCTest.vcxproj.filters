@@ -18,6 +18,9 @@
     <ClInclude Include="olcSimpleEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpaceObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
@@ -25,6 +28,9 @@
     </ClCompile>
     <ClCompile Include="olcSimpleEngine.cpp">
       <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

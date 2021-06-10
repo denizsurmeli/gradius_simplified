@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="olcSimpleEngine.h" />
+    <ClInclude Include="SpaceObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="olcSimpleEngine.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SpaceObject.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

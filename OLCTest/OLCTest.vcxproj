@@ -145,6 +145,7 @@
     <ClInclude Include="MovingSpaceObject.h" />
     <ClInclude Include="olcSimpleEngine.h" />
     <ClInclude Include="RegularAsteroid.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="SpaceObject.h" />
     <ClInclude Include="StrongAsteroid.h" />
   </ItemGroup>
@@ -155,6 +156,7 @@
     <ClCompile Include="MovingSpaceObject.cpp" />
     <ClCompile Include="olcSimpleEngine.cpp" />
     <ClCompile Include="RegularAsteroid.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpaceObject.cpp" />
     <ClCompile Include="StrongAsteroid.cpp" />

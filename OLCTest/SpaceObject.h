@@ -24,7 +24,7 @@ public:
 	virtual bool objectInSpace();
 	virtual bool checkCollision(SpaceObject* target);
 
-	void drawObject(SpaceGame* p, SpaceObject* ref,int scale);
+	void drawObject(SpaceGame* p,int scale);
 
 };
 

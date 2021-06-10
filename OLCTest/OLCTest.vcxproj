@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="MovingSpaceObject.h" />
     <ClInclude Include="olcSimpleEngine.h" />
     <ClInclude Include="SpaceObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MovingSpaceObject.cpp" />
     <ClCompile Include="olcSimpleEngine.cpp" />
     <ClCompile Include="Source.cpp" />

@@ -1,4 +1,11 @@
 #include "SpaceObject.h"
+#include "olcSimpleEngine.h"
+#include "SpaceGame.h"
+
+
+/*
+	Constructor implementations
+*/
 SpaceObject::SpaceObject() : xPosition{ SpaceGameConstants::DIM_X }, yPosition{ SpaceGameConstants::DIM_Y }, dimX{ 0 }, dimY{ 0 }, sprite{ nullptr } {};
 SpaceObject::SpaceObject(int x = SpaceGameConstants::DIM_X, int y = SpaceGameConstants::DIM_Y, double d_x = 0, double d_y = 0, olc::Sprite* spriteRef = nullptr) :xPosition{ x }, yPosition{ y }, dimX{ d_x }, dimY{ d_y }, sprite{ sprite } {}
 SpaceObject::SpaceObject(SpaceObject* ref) : xPosition{ ref->xPosition }, yPosition{ ref->yPosition }, dimX{ ref->dimX }, dimY{ ref->dimY }, sprite{ ref->sprite }{};

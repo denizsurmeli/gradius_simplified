@@ -1,5 +1,5 @@
 #include "MovingSpaceObject.h"
-
+#include "SpaceObject.h"
 /*
 	Constructor for MovingSpaceObject
 	@param x: x-coordinate

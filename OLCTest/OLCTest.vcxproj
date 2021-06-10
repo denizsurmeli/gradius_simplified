@@ -144,7 +144,9 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="MovingSpaceObject.h" />
     <ClInclude Include="olcSimpleEngine.h" />
+    <ClInclude Include="RegularAsteroid.h" />
     <ClInclude Include="SpaceObject.h" />
+    <ClInclude Include="StrongAsteroid.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asteroid.cpp" />
@@ -152,8 +154,10 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MovingSpaceObject.cpp" />
     <ClCompile Include="olcSimpleEngine.cpp" />
+    <ClCompile Include="RegularAsteroid.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SpaceObject.cpp" />
+    <ClCompile Include="StrongAsteroid.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

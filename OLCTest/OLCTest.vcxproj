@@ -141,26 +141,31 @@
   <ItemGroup>
     <ClInclude Include="Asteroid.h" />
     <ClInclude Include="Box.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="EnemyShip.h" />
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="MovingSpaceObject.h" />
     <ClInclude Include="olcSimpleEngine.h" />
     <ClInclude Include="RegularAsteroid.h" />
+    <ClInclude Include="RegularBullet.h" />
     <ClInclude Include="RegularEnemyShip.h" />
     <ClInclude Include="Ship.h" />
     <ClInclude Include="ShootingEnemyShip.h" />
     <ClInclude Include="SpaceGame.h" />
     <ClInclude Include="SpaceObject.h" />
     <ClInclude Include="StrongAsteroid.h" />
+    <ClInclude Include="StrongBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyShip.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="MovingSpaceObject.cpp" />
     <ClCompile Include="olcSimpleEngine.cpp" />
     <ClCompile Include="RegularAsteroid.cpp" />
+    <ClCompile Include="RegularBullet.cpp" />
     <ClCompile Include="RegularEnemyShip.cpp" />
     <ClCompile Include="Ship.cpp" />
     <ClCompile Include="ShootingEnemyShip.cpp" />
@@ -168,6 +173,7 @@
     <ClCompile Include="SpaceGame.cpp" />
     <ClCompile Include="SpaceObject.cpp" />
     <ClCompile Include="StrongAsteroid.cpp" />
+    <ClCompile Include="StrongBullet.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

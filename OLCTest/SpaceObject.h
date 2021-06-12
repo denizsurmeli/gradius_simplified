@@ -2,6 +2,9 @@
 #include "olcSimpleEngine.h"
 
 
+
+
+
 namespace SpaceObjectConstants {
 	constexpr auto SPACE_X = 400;
 	constexpr auto SPACE_Y = 400;
@@ -24,7 +27,11 @@ public:
 	virtual bool objectInSpace();
 	virtual bool checkCollision(SpaceObject* target);
 
-	//void drawObject(SpaceGame* p,int scale);
+	//only used in Bullet and derived classes.
+	int getX() { return this->xPosition; };
+	int getY() { return this->yPosition; };
 
+	//void drawObject(SpaceGame* p,int scale);
+	
 };
 

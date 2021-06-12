@@ -16,8 +16,7 @@ private:
     int hitCount;
 public:
     ShootingEnemyShip();
-    void move(float elapsedTime) override;
-    void move(SpaceObject* target, float elapsedTime) override;
+    void move(SpaceObject* target, float elapsedTime);
 
 };
 

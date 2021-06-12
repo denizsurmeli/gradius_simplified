@@ -7,11 +7,8 @@
 
 
 
-StrongBullet::StrongBullet(MovingSpaceObject* refPoint): Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED) {};
+StrongBullet::StrongBullet(MovingSpaceObject* refPoint, double timestamp) : Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED), timestamp{ timestamp } {};
 
-void StrongBullet::move(double elapsedTime) {
-	this->xPosition += this->speed * elapsedTime;
-}
 
 
 void StrongBullet::nearbyEnemies(std::vector<SpaceObject*> possibleTargets) {};

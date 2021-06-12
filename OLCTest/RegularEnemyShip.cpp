@@ -12,5 +12,3 @@ void RegularEnemyShip::move(float elapsedTime) {
 	this->xPosition -= this->speed * elapsedTime;
 }
 
-void RegularEnemyShip::move(SpaceObject* target, float elapsedTime) {};
-

@@ -21,9 +21,6 @@ private:
 
 public:
     Ship();
-    void move(Direction direction, float elapsedTime) override;
-
-
-
+    void move(Direction direction, float elapsedTime);
 };
 

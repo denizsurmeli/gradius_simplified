@@ -54,3 +54,5 @@ void Ship::move(Direction direction, float elapsedTime) {
 	}
 
 }
+
+

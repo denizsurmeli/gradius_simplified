@@ -12,7 +12,6 @@ class RegularBullet :
 {
 public:
     RegularBullet(MovingSpaceObject* refPoint);
-    void move(double elapsedTime);
 
 
 };

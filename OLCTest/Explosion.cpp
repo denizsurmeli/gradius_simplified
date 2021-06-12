@@ -9,9 +9,9 @@
 	@param lifetime: Lifetime for explosion
 
 */
-Explosion::Explosion(SpaceObject* collidedObject, double explosionTime, double lifetime = ExplosionConstants::LIFETIME) : SpaceObject(collidedObject), explosionTime{ explosionTime }, lifetime{ lifetime }
+Explosion::Explosion(SpaceObject* collidedObject, double explosionTime) : SpaceObject(collidedObject), explosionTime{ explosionTime }, lifetime{ ExplosionConstants::LIFETIME }
 {
-	this->sprite = new olc::Sprite("Sprites/explosion.png");
+	this->sprite = new olc::Sprite(ExplosionConstants::SPRITE_LOCATION);
 };
 /*
 	Checks whether the explosion has completed it's lifetime or not

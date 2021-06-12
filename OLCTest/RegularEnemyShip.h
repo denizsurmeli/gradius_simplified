@@ -15,8 +15,7 @@ class RegularEnemyShip :
 
 public:
     RegularEnemyShip();
-    void move(float elapsedTime) override;
-    void move(SpaceObject* target, float elapsedTime) override;
+    void move(float elapsedTime);
 
 
 };

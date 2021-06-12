@@ -28,6 +28,7 @@ public:
 	virtual bool checkCollision(SpaceObject* target);
 
 	//only used in Bullet and derived classes.
+	//@todo:find a solution for this getter case.
 	int getX() { return this->xPosition; };
 	int getY() { return this->yPosition; };
 

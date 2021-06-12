@@ -14,5 +14,6 @@ protected:
 
 public:
 	Bullet(MovingSpaceObject* refPoint,olc::Sprite* sprite, double speed);
+    void move(float elapsedTime) override;
 };
 

@@ -15,9 +15,10 @@ namespace StrongBulletConstants {
 class StrongBullet :
     public Bullet
 {
+private:
+    double timestamp;
 public:
-    StrongBullet(MovingSpaceObject* refPoint);
-    void move(double elapsedTime);
+    StrongBullet(MovingSpaceObject* refPoint,double timestamp);
     void nearbyEnemies(std::vector<SpaceObject*> possibleTargets);
 
 };

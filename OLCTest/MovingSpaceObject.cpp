@@ -31,3 +31,6 @@ void MovingSpaceObject::move(Direction direction, float elapsedTime) {
 	}
 
 }
+
+void MovingSpaceObject::move(float elapsedTime) {};
+void MovingSpaceObject::move(SpaceObject* target, float elapsedTime) {};

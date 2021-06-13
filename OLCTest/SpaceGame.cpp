@@ -10,7 +10,8 @@
 #include "Ship.h"
 #include <vector>
 #include <iostream>
-
+#include <chrono>
+#include <thread>
 SpaceGame::SpaceGame() : gameOver{ false }, gameStarted{ false }, gamePaused{ false }, totalTime{ 0 }, totalScore{ 0 }, boxCount{ 0 }, nuclearCount{ 0 }, regularEnemyCount{ 0 }, shootingEnemyCount{ 0 }, regularAsteroidCount{ 0 }, strongAsteroidCount{ 0 }, ship{ nullptr }, box{ nullptr }, regularEnemyShip{ nullptr }, shootingEnemyShip{ nullptr }, regularAsteroid{ nullptr }, strongAsteroid{ nullptr }, shipBullet{ nullptr }, enemyBullets{}, explosions{}, objects{}{
 
 };
@@ -89,13 +90,13 @@ void SpaceGame::drawObjects() {
 	}
 }
 void SpaceGame::generateObjectList() {
-	//this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
-	//for (auto ob : enemyBullets) {
-	//	this->objects.push_back(ob);
-	//}
-	//for (auto ob : explosions) {
-	//	this->objects.push_back(ob);
-	//}
+	this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
+	for (auto ob : enemyBullets) {
+		this->objects.push_back(ob);
+	}
+	for (auto ob : explosions) {
+		this->objects.push_back(ob);
+	}
 }
 
 void SpaceGame::listenKeyPress(double elapsedTime) {
@@ -177,15 +178,13 @@ bool SpaceGame::OnUserUpdate(float fElapsedTime) {
 				return true;
 			}
 			else/*gameplay runs here*/ {
-				this->ship->drawObject(this);
-				this->box->drawObject(this);
-
-				this->DrawSprite(this->ship->getX(), this->ship->getY(), this->ship->getSprite(), 1);
 				this->generateObjectList();
 				
 				this->drawObjects();
 
 				this->totalTime += fElapsedTime;
+
+				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 				return true;
 			}
 		}

@@ -1,5 +1,6 @@
 #include "MovingSpaceObject.h"
 #include "SpaceObject.h"
+#include "olcSimpleEngine.h"
 /*
 	Constructor for MovingSpaceObject
 	@param x: x-coordinate

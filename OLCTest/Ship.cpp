@@ -5,7 +5,7 @@
 	Constructor for the Ship class
 	@return Ship
 */
-Ship::Ship() : MovingSpaceObject(SpaceObjectConstants::SPACE_X / 2, SpaceObjectConstants::SPACE_Y / 2, ShipConstants::DIM_X, ShipConstants::DIM_Y, new olc::Sprite(ShipConstants::SPRITE_LOCATION), ShipConstants::SPEED), canFire{ true }, canUseNuclear{ false }, fireType{ ShipConstants::FireType::Regular}, hitCount{ 0 } {
+Ship::Ship() : MovingSpaceObject(SpaceObjectConstants::SPACE_X / 2, SpaceObjectConstants::SPACE_Y / 2, ShipConstants::DIM_X, ShipConstants::DIM_Y, new olc::Sprite("Sprites/spaceship.png"), ShipConstants::SPEED), canFire{ true }, canUseNuclear{ false }, fireType{ ShipConstants::FireType::Regular}, hitCount{ 0 } {
 };
 
 /*

@@ -7,7 +7,7 @@
 	Constructor implementations
 */
 SpaceObject::SpaceObject() : xPosition{ SpaceGameConstants::DIM_X }, yPosition{ SpaceGameConstants::DIM_Y }, dimX{ 0 }, dimY{ 0 }, sprite{ nullptr } {};
-SpaceObject::SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* spriteRef) :xPosition{ x }, yPosition{ y }, dimX{ d_x }, dimY{ d_y }, sprite{ sprite } {}
+SpaceObject::SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* spriteRef) :xPosition{ x }, yPosition{ y }, dimX{ d_x }, dimY{ d_y }, sprite{ spriteRef } {}
 SpaceObject::SpaceObject(const SpaceObject* ref) : xPosition{ ref->xPosition }, yPosition{ ref->yPosition }, dimX{ ref->dimX }, dimY{ ref->dimY }, sprite{ ref->sprite }{};
 
 /*

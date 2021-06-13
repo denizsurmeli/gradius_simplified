@@ -20,7 +20,7 @@ protected:
 
 public:
 	SpaceObject();
-	explicit SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* sprite);
+	SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* sprite);
 	explicit SpaceObject(const SpaceObject* ref);
 
 	virtual bool objectInSpace();

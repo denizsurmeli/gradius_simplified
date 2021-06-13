@@ -21,5 +21,8 @@ public:
     ShootingEnemyShip();
     void move(SpaceObject* target, float elapsedTime);
     Bullet* fireBullet();
+
+    void reduceHealth();
+    bool isDead();
 };
 

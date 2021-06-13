@@ -16,9 +16,8 @@ class StrongBullet :
     public Bullet
 {
 private:
-    double timestamp;
 public:
-    StrongBullet(MovingSpaceObject* refPoint,double timestamp);
+    StrongBullet(MovingSpaceObject* refPoint,Direction direction);
     void nearbyEnemies(std::vector<SpaceObject*> possibleTargets);
 
 };

@@ -7,7 +7,7 @@
 
 
 
-StrongBullet::StrongBullet(MovingSpaceObject* refPoint, double timestamp) : Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED,Direction::PX), timestamp{ timestamp } {};
+StrongBullet::StrongBullet(MovingSpaceObject* refPoint, Direction direction) : Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED,direction) {};
 
 
 

@@ -24,6 +24,7 @@ class Ship :
 {
 private:
     int hitCount;
+    double strongBulletTime;
     bool canUseNuclear;
     bool canFire;
     ShipConstants::FireType fireType;
@@ -32,6 +33,10 @@ private:
 public:
     Ship();
     void move(Direction direction, float elapsedTime);
+    bool shipCanFire();
+    void toggleFire();
+    void captureNuclear();
+    void captureStrongBullet();
     Bullet* fireBullet();
 };
 

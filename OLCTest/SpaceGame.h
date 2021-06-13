@@ -25,7 +25,12 @@ namespace SpaceGameConstants {
 	constexpr auto POINT_PER_STRONG_ASTEROID = 9;
 	constexpr auto POINT_PER_SHOOTING_ENEMY = 15;
 
-
+	//regen times for objects
+	constexpr auto REGEN_REG_ENEMY = 5;
+	constexpr auto REGEN_STG_ENEMY = 10;
+	constexpr auto REGEN_REG_ASTEROID = 5;
+	constexpr auto REGEN_ST_ASTEROID = 12;
+	constexpr auto REGEN_BOX = 5;
 
 	//space dimensions
 	constexpr auto DIM_X = 400;
@@ -78,16 +83,19 @@ public:
 
 
 	//generators
-	void generateTargets();
+	void generateTargets(float elapsedTime);
+	void generateExplosion(SpaceObject* target, float currentTime);
 	void generateNuclearEffect();
 	void generateObjectList();
 
 	//Renderers,updaters and drawers
 	void drawObjects();
+
 	void updateExplosions();
-	void updateBullets();
+	void updateBullets(float elapsedTime);
 	void updateShips();
 	void updateAsteroids();
+	void updateAll(float elapsedTime);
 
 	void render();
 
@@ -110,6 +118,15 @@ private:
 	int shootingEnemyCount;
 	int regularAsteroidCount;
 	int strongAsteroidCount;
+	
+	//time oracles
+	double lastRegularEnemyTime;
+	double lastShootingEnemyTime;
+	double lastRegularAsteroidTime;
+	double lastStrongAsteroidTime;
+
+	//count oracles
+	int lastBoxCount;
 
 	//Objects
 	Ship* ship;

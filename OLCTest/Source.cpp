@@ -34,7 +34,7 @@ int main()
 	ShootingEnemyShip* ses = new ShootingEnemyShip();
 
 	RegularBullet* rb = new RegularBullet(ses,Direction::PX);
-	StrongBullet* sb = new StrongBullet(ps, 0);
+	StrongBullet* sb = new StrongBullet(ps,Direction::PX);
 
 
 	SpaceGame game;

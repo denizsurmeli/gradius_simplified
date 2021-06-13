@@ -5,7 +5,7 @@
 	Constructor for the Ship class
 	@return Ship
 */
-Ship::Ship() : MovingSpaceObject(SpaceObjectConstants::SPACE_X / 2, SpaceObjectConstants::SPACE_Y / 2, ShipConstants::DIM_X, ShipConstants::DIM_Y, new olc::Sprite("Sprites/spaceship.png"), ShipConstants::SPEED), canFire{ true }, canUseNuclear{ false }, fireType{ ShipConstants::FireType::Regular}, hitCount{ 0 } {
+Ship::Ship() : MovingSpaceObject(SpaceObjectConstants::SPACE_X / 2, SpaceObjectConstants::SPACE_Y / 2, ShipConstants::DIM_X, ShipConstants::DIM_Y, new olc::Sprite("Sprites/spaceship.png"), ShipConstants::SPEED), canFire{ true }, canUseNuclear{ false }, fireType{ ShipConstants::FireType::Regular }, hitCount{ 0 }, strongBulletTime{ 0 } {
 };
 
 /*
@@ -55,4 +55,29 @@ void Ship::move(Direction direction, float elapsedTime) {
 
 }
 
+bool Ship::shipCanFire()
+{
+	return this->canFire;
+}
 
+void Ship::toggleFire()
+{
+	this->canFire = this->canFire == true ? false : true;
+}
+
+Bullet* Ship::fireBullet() {
+	if (this->shipCanFire()) {
+		this->toggleFire();
+		if (fireType == ShipConstants::FireType::Regular) {
+			auto b = new RegularBullet(this,Direction::PX);
+			return b;
+		}
+		if(fireType == ShipConstants::FireType::Strong) {
+			auto b = new StrongBullet(this, Direction::PX);
+			return b;
+		}
+	}
+
+	return nullptr;
+
+}

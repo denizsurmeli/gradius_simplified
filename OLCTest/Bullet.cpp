@@ -5,7 +5,7 @@
 
 
 
-Bullet::Bullet(MovingSpaceObject* refPoint, olc::Sprite* sprite, double speed, Direction direction) :MovingSpaceObject(refPoint->getX(), refPoint->getY(), dimX, dimY, sprite, speed), direction{ direction } {  }
+Bullet::Bullet(MovingSpaceObject* refPoint, olc::Sprite* sprite, double speed, Direction direction) :MovingSpaceObject(refPoint->getX() + BulletConstants::DIM_X, refPoint->getY()+ BulletConstants::DIM_Y, dimX, dimY, sprite, speed), direction{ direction } {  }
 
 
 void Bullet::move(float elapsedTime)

@@ -9,10 +9,11 @@
 #include "Explosion.h"
 #include "Ship.h"
 #include <vector>
-#include <typeinfo>
+#include <iostream>
 
+SpaceGame::SpaceGame() : gameOver{ false }, gameStarted{ false }, gamePaused{ false }, totalTime{ 0 }, totalScore{ 0 }, boxCount{ 0 }, nuclearCount{ 0 }, regularEnemyCount{ 0 }, shootingEnemyCount{ 0 }, regularAsteroidCount{ 0 }, strongAsteroidCount{ 0 }, ship{ nullptr }, box{ nullptr }, regularEnemyShip{ nullptr }, shootingEnemyShip{ nullptr }, regularAsteroid{ nullptr }, strongAsteroid{ nullptr }, shipBullet{ nullptr }, enemyBullets{}, explosions{}, objects{}{
 
-SpaceGame::SpaceGame() : gameOver{ false }, gameStarted{ false }, gamePaused{ false }, totalTime{ 0 }, totalScore{ 0 }, boxCount{ 0 }, nuclearCount{ 0 }, regularEnemyCount{ 0 }, shootingEnemyCount{ 0 }, regularAsteroidCount{ 0 }, strongAsteroidCount{ 0 }, ship{ new Ship() }, box{ nullptr }, enemyShips{}, asteroids{}, bullets{}, explosions{}{};
+};
 
 /*
 	Draws the game instructions and gameplay
@@ -80,11 +81,120 @@ void SpaceGame::endScreen() {
 
 
 
+void SpaceGame::drawObjects() {
+	for (auto ob : this->objects) {
+		if (ob != nullptr) {
+			ob->drawObject(this);
+		}
+	}
+}
+void SpaceGame::generateObjectList() {
+	//this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
+	//for (auto ob : enemyBullets) {
+	//	this->objects.push_back(ob);
+	//}
+	//for (auto ob : explosions) {
+	//	this->objects.push_back(ob);
+	//}
+}
+
+void SpaceGame::listenKeyPress(double elapsedTime) {
+	//User ship movement(up,down,right,left)
+	if (GetKey(olc::W).bHeld) {
+		this->ship->move(Direction::NY, elapsedTime);
+	}if (GetKey(olc::A).bHeld) {
+		this->ship->move(Direction::NX, elapsedTime);
+	}if (GetKey(olc::S).bHeld) {
+		this->ship->move(Direction::PY, elapsedTime);
+	}if (GetKey(olc::D).bHeld) {
+		this->ship->move(Direction::PX, elapsedTime);
+	}
+	//Firing a bullet
+	if (GetKey(olc::SPACE).bPressed) {
+		//Checking the constraints for shooting a bullet
+		//@TODO:
+	}
+	//Capturing the nuclear power with mouse click
+	if (GetMouse(0).bPressed) {
+		//if box does exist
+		if (this->box != nullptr) {
+			//give the coordinates to box, check whether the click is eligible for nuclear power
+			if (this->box->checkMouseClick(GetMouseX(), GetMouseY())) {
+				//@TODO:
+				delete this->box;
+				this->box = nullptr;
+			}
+		}
+	}
+	//use nuclear power
+	if (GetKey(olc::SHIFT).bPressed) {
+		//@TODO:
+		
+	}
+	//if game paused:continue
+	//if the game hasn't started: start the game
+	if (GetKey(olc::ENTER).bPressed) {
+		if (this->gameStarted == false) {
+			this->gameStarted = true;
+		}
+		else {
+			this->gamePaused = false;
+		}
+	}
+	//pause the game
+	if (GetKey(olc::P).bPressed) {
+		this->gamePaused = true;
+	}
+}
+
 
 bool SpaceGame::OnUserCreate() {
+	this->ship = new Ship();
+	this->box = new Box();
 	return true;
 }
 
-bool SpaceGame::OnUserUpdate(float elapsedTime) {
+bool SpaceGame::OnUserUpdate(float fElapsedTime) {
+	Clear(olc::DARK_GREEN);
+	SetPixelMode(olc::Pixel::ALPHA);
+
+	if (this->gameStarted) {
+		//If game is ended, show the end screen.
+		if (this->gameOver) {
+			//@TODO: write a cleaner for memory leaks
+			this->endScreen();
+			if (GetKey(olc::E).bPressed)
+				return false;
+			else
+				return true;
+		}
+		else {
+
+			//Listens key strokes
+			this->listenKeyPress(fElapsedTime);
+			if (this->gamePaused) {
+				this->pauseScreen();
+				return true;
+			}
+			else/*gameplay runs here*/ {
+				this->ship->drawObject(this);
+				this->box->drawObject(this);
+
+				this->DrawSprite(this->ship->getX(), this->ship->getY(), this->ship->getSprite(), 1);
+				this->generateObjectList();
+				
+				this->drawObjects();
+
+				this->totalTime += fElapsedTime;
+				return true;
+			}
+		}
+	}
+	else {
+		//the beginning screen
+		this->displayGameplay();
+		this->listenKeyPress(fElapsedTime);
+	}
+
 	return true;
 }

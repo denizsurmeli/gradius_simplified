@@ -11,7 +11,7 @@ class RegularBullet :
     public Bullet
 {
 public:
-    RegularBullet(MovingSpaceObject* refPoint);
+    RegularBullet(MovingSpaceObject* refPoint,Direction direction);
 
 
 };

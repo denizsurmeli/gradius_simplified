@@ -1,5 +1,8 @@
 #pragma once
 #include "MovingSpaceObject.h"
+#include "RegularBullet.h"
+#include "StrongBullet.h"
+#include "Bullet.h"
 
 //Dimensions of ship
 namespace ShipConstants {
@@ -8,6 +11,11 @@ namespace ShipConstants {
     constexpr auto SPEED = 125;
     constexpr auto LIFE = 3;
     constexpr auto SPRITE_LOCATION = "Sprites/spaceship.png";
+    
+    enum class FireType {
+        Regular = 1,
+        Strong = 2
+    };
 }
 
 
@@ -18,9 +26,12 @@ private:
     int hitCount;
     bool canUseNuclear;
     bool canFire;
+    ShipConstants::FireType fireType;
+    
 
 public:
     Ship();
     void move(Direction direction, float elapsedTime);
+    Bullet* fireBullet();
 };
 

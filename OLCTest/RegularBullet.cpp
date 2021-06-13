@@ -3,5 +3,5 @@
 #include "SpaceObject.h"
 #include "MovingSpaceObject.h"
 
-RegularBullet::RegularBullet(MovingSpaceObject* refPoint) : Bullet(refPoint, new olc::Sprite(RegularBulletConstants::SPRITE_LOCATION), RegularBulletConstants::SPEED) {};
+RegularBullet::RegularBullet(MovingSpaceObject* refPoint,Direction direction) : Bullet(refPoint, new olc::Sprite(RegularBulletConstants::SPRITE_LOCATION), RegularBulletConstants::SPEED,direction) {};
 

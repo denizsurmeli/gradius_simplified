@@ -4,7 +4,6 @@
 
 
 
-
 namespace SpaceObjectConstants {
 	constexpr auto SPACE_X = 400;
 	constexpr auto SPACE_Y = 400;
@@ -21,7 +20,7 @@ protected:
 
 public:
 	SpaceObject();
-	SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* sprite);
+	explicit SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* sprite);
 	explicit SpaceObject(const SpaceObject* ref);
 
 	virtual bool objectInSpace();
@@ -31,8 +30,10 @@ public:
 	//@todo:find a solution for this getter case.
 	int getX() { return this->xPosition; };
 	int getY() { return this->yPosition; };
+	olc::Sprite* getSprite() { return this->sprite; };
 
-	//void drawObject(SpaceGame* p,int scale);
+	void drawObject(olc::PixelGameEngine* p);
 	
 };
+
 

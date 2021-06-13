@@ -79,15 +79,17 @@ public:
 
 	//generators
 	void generateTargets();
+	void generateNuclearEffect();
+	void generateObjectList();
 
-	//Renderers
+	//Renderers,updaters and drawers
 	void drawObjects();
 	void updateExplosions();
 	void updateBullets();
 	void updateShips();
 	void updateAsteroids();
 
-	void renderScreen();
+	void render();
 
 
 
@@ -112,10 +114,15 @@ private:
 	//Objects
 	Ship* ship;
 	Box* box;
-	std::vector<EnemyShip*> enemyShips;
-	std::vector<Asteroid*> asteroids;
-	std::vector<Bullet*> bullets;
+	RegularEnemyShip* regularEnemyShip;
+	ShootingEnemyShip* shootingEnemyShip;
+	RegularAsteroid* regularAsteroid;
+	StrongAsteroid* strongAsteroid;
+	Bullet* shipBullet;
+	std::vector<RegularBullet*> enemyBullets;
 	std::vector<Explosion*> explosions;
+
+	std::vector<SpaceObject*> objects;
 
 };
 

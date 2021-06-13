@@ -1,5 +1,8 @@
 #pragma once
 #include "EnemyShip.h"
+#include "RegularBullet.h"
+#include "StrongBullet.h"
+#include "Bullet.h"
 
 namespace ShootingEnemyShipConstants {
     constexpr auto DIM_X = 27;
@@ -17,6 +20,6 @@ private:
 public:
     ShootingEnemyShip();
     void move(SpaceObject* target, float elapsedTime);
-
+    Bullet* fireBullet();
 };
 

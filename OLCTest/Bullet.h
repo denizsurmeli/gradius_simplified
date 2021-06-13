@@ -11,9 +11,9 @@ namespace BulletConstants {
 class Bullet :public MovingSpaceObject
 {
 protected:
-
+    Direction direction;
 public:
-	Bullet(MovingSpaceObject* refPoint,olc::Sprite* sprite, double speed);
+	Bullet(MovingSpaceObject* refPoint,olc::Sprite* sprite, double speed,Direction direction);
     void move(float elapsedTime) override;
 };
 

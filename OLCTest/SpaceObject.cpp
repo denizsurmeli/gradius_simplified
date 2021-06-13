@@ -7,7 +7,7 @@
 	Constructor implementations
 */
 SpaceObject::SpaceObject() : xPosition{ SpaceGameConstants::DIM_X }, yPosition{ SpaceGameConstants::DIM_Y }, dimX{ 0 }, dimY{ 0 }, sprite{ nullptr } {};
-SpaceObject::SpaceObject(int x = SpaceGameConstants::DIM_X, int y = SpaceGameConstants::DIM_Y, double d_x = 0, double d_y = 0, olc::Sprite* spriteRef = nullptr) :xPosition{ x }, yPosition{ y }, dimX{ d_x }, dimY{ d_y }, sprite{ sprite } {}
+SpaceObject::SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* spriteRef) :xPosition{ x }, yPosition{ y }, dimX{ d_x }, dimY{ d_y }, sprite{ sprite } {}
 SpaceObject::SpaceObject(const SpaceObject* ref) : xPosition{ ref->xPosition }, yPosition{ ref->yPosition }, dimX{ ref->dimX }, dimY{ ref->dimY }, sprite{ ref->sprite }{};
 
 /*
@@ -45,6 +45,13 @@ bool SpaceObject::checkCollision(SpaceObject* target) {
 	}
 	return false;
 }
+
+
+void SpaceObject::drawObject(olc::PixelGameEngine* p)
+{
+	p->DrawSprite(this->xPosition, this->yPosition, this->sprite,1);
+}
+
 
 /*
 	Checking whether the object is remained in the space coordinates or not

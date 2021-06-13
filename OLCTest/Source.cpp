@@ -21,6 +21,7 @@
 
 
 
+
 int main()
 {
 	Box* b = new Box();
@@ -32,10 +33,9 @@ int main()
 	RegularEnemyShip* res = new RegularEnemyShip();
 	ShootingEnemyShip* ses = new ShootingEnemyShip();
 
-	RegularBullet* rb = new RegularBullet(ses);
+	RegularBullet* rb = new RegularBullet(ses,Direction::PX);
 	StrongBullet* sb = new StrongBullet(ps, 0);
 
-	std::cout << "testing objects" << std::endl;
 
 	SpaceGame game;
 	if (game.Construct(400, 400, 1, 1)) {

@@ -30,7 +30,7 @@ namespace SpaceGameConstants {
 	constexpr auto REGEN_STG_ENEMY = 10;
 	constexpr auto REGEN_REG_ASTEROID = 5;
 	constexpr auto REGEN_ST_ASTEROID = 12;
-	constexpr auto REGEN_BOX = 5;
+	constexpr auto REGEN_BOX = 3;
 
 	//space dimensions
 	constexpr auto DIM_X = 400;
@@ -84,7 +84,8 @@ public:
 
 	//generators
 	void generateTargets(float elapsedTime);
-	void generateExplosion(SpaceObject* target, float currentTime);
+	void generateExplosion(SpaceObject* target, float currentTime,ExplosionConstants::ExplosionType type);
+	void generateShrapnelEffect(std::vector<SpaceObject*> effected);
 	void generateNuclearEffect();
 	void generateObjectList();
 
@@ -93,8 +94,8 @@ public:
 
 	void updateExplosions();
 	void updateBullets(float elapsedTime);
-	void updateShips();
-	void updateAsteroids();
+	void updateShips(float elapsedTime);
+	void updateAsteroids(float elapsedTime);
 	void updateAll(float elapsedTime);
 
 	void render();
@@ -107,6 +108,7 @@ private:
 	bool gameOver;
 	bool gameStarted;
 	bool gamePaused;
+
 	//Statistics
 	float totalTime;
 	float totalScore;

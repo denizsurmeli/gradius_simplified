@@ -5,11 +5,13 @@
 #include "Bullet.h"
 
 namespace ShootingEnemyShipConstants {
-    constexpr auto DIM_X = 27;
-    constexpr auto DIM_Y = 25;
-    constexpr auto SPEED = 60;
+    constexpr auto DIM_X = 30;
+    constexpr auto DIM_Y = 40;
+    constexpr auto SPEED = 25;
+    constexpr auto REGEN_BULLET = 2;
+    constexpr auto MAX_BULLET_COUNT = 3;
     constexpr auto SPRITE_LOCATION = "Sprites/enemy.png"; //@todo->change these
-    constexpr auto LIFE = 3;
+    constexpr auto LIFE = 2;
 }
 
 class ShootingEnemyShip :
@@ -17,12 +19,16 @@ class ShootingEnemyShip :
 {
 private:
     int hitCount;
+    double lastFire;
+    int bulletCount;
 public:
     ShootingEnemyShip();
     void move(SpaceObject* target, float elapsedTime);
-    Bullet* fireBullet();
+    RegularBullet* fireBullet(double timeNow);
 
     void reduceHealth();
+    void reduceCount();
     bool isDead();
+    bool canFire(double timeNow);
 };
 

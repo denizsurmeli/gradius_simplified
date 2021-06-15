@@ -11,7 +11,7 @@ namespace ShipConstants {
     constexpr auto SPEED = 125;
     constexpr auto LIFE = 3;
     constexpr auto SPRITE_LOCATION = "Sprites/spaceship.png";
-    
+    constexpr auto STR_BULLET_LIFETIME = 5;
     enum class FireType {
         Regular = 1,
         Strong = 2
@@ -34,9 +34,14 @@ public:
     Ship();
     void move(Direction direction, float elapsedTime);
     bool shipCanFire();
+    bool shipCanUseNuclear();
+    bool isDead();
+    ShipConstants::FireType getFireType();
     void toggleFire();
-    void captureNuclear();
-    void captureStrongBullet();
-    Bullet* fireBullet();
+    void toggleNuclear();
+    void reduceHealth();
+
+    void captureStrongBullet(double timeNow);
+    Bullet* fireBullet(double timeNow);
 };
 

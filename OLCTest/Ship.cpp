@@ -60,24 +60,62 @@ bool Ship::shipCanFire()
 	return this->canFire;
 }
 
+bool Ship::shipCanUseNuclear()
+{
+	return this->canUseNuclear;
+}
+
+bool Ship::isDead()
+{
+	return this->hitCount >= ShipConstants::LIFE;
+}
+
+ShipConstants::FireType Ship::getFireType()
+{
+	return this->fireType;
+}
+
 void Ship::toggleFire()
 {
 	this->canFire = this->canFire == true ? false : true;
 }
 
-Bullet* Ship::fireBullet() {
+void Ship::toggleNuclear()
+{
+	this->canUseNuclear = this->canUseNuclear ? false : true;
+}
+
+void Ship::reduceHealth()
+{
+	this->hitCount++;
+}
+
+void Ship::captureStrongBullet(double timeNow)
+{
+	if (!(this->fireType == ShipConstants::FireType::Strong)) {
+		this->fireType = ShipConstants::FireType::Strong;
+		this->strongBulletTime = timeNow;
+	}
+}
+
+
+Bullet* Ship::fireBullet(double timeNow) {
+	if (timeNow - this->strongBulletTime >= ShipConstants::STR_BULLET_LIFETIME) {
+		this->fireType = ShipConstants::FireType::Regular;
+
+	}
 	if (this->shipCanFire()) {
 		this->toggleFire();
 		if (fireType == ShipConstants::FireType::Regular) {
 			auto b = new RegularBullet(this,Direction::PX);
 			return b;
 		}
-		if(fireType == ShipConstants::FireType::Strong) {
+		if (fireType == ShipConstants::FireType::Strong && timeNow - this->strongBulletTime <= ShipConstants::STR_BULLET_LIFETIME) {
+			this->fireType = ShipConstants::FireType::Regular;
 			auto b = new StrongBullet(this, Direction::PX);
 			return b;
 		}
 	}
-
 	return nullptr;
 
 }

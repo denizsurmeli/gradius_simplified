@@ -6,7 +6,7 @@ Asteroid::Asteroid(int dimX, int dimY, olc::Sprite* sprite, double speed) :Movin
 
 void Asteroid::move(float elapsedTime) {
 	if (this->xPosition <= 0) {
-		this->xPosition -= this->speed * elapsedTime;
+		this->xPosition -= 1;
 	}
 	this->xPosition -= this->speed * elapsedTime;
 }

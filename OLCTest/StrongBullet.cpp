@@ -7,8 +7,7 @@
 
 
 
-StrongBullet::StrongBullet(MovingSpaceObject* refPoint, Direction direction) : Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED,direction) {};
+StrongBullet::StrongBullet(MovingSpaceObject* refPoint, Direction direction) : Bullet(refPoint, new olc::Sprite(StrongBulletConstants::SPRITE_LOCATION), StrongBulletConstants::SPEED,direction, BulletConstants::BulletType::Strong) {};
 
 
 
-void StrongBullet::nearbyEnemies(std::vector<SpaceObject*> possibleTargets) {};

@@ -94,7 +94,7 @@ void SpaceGame::listenKeyPress(double elapsedTime) {
 		//Checking the constraints for shooting a bullet
 		//@TODO:
 		if (this->shipBullet == nullptr) {
-			this->shipBullet = this->ship->fireBullet();
+			this->shipBullet = this->ship->fireBullet(this->totalTime);
 		}
 	}
 	//Capturing the nuclear power with mouse click
@@ -104,6 +104,8 @@ void SpaceGame::listenKeyPress(double elapsedTime) {
 			//give the coordinates to box, check whether the click is eligible for nuclear power
 			if (this->box->checkMouseClick(GetMouseX(), GetMouseY())) {
 				//@TODO:
+				this->ship->toggleNuclear();
+
 				delete this->box;
 				this->box = nullptr;
 			}
@@ -112,6 +114,10 @@ void SpaceGame::listenKeyPress(double elapsedTime) {
 	//use nuclear power
 	if (GetKey(olc::SHIFT).bPressed) {
 		//@TODO:
+		if (this->ship->shipCanUseNuclear()) {
+			this->generateNuclearEffect();
+			this->ship->toggleNuclear();
+		}
 
 	}
 	//if game paused:continue
@@ -131,8 +137,43 @@ void SpaceGame::listenKeyPress(double elapsedTime) {
 }
 
 SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
-
+	std::vector<SpaceObject*> candidates{ this->regularAsteroid,this->regularEnemyShip,this->strongAsteroid,this->shootingEnemyShip };
 	//ship to something
+	if (this->ship != nullptr) {
+		//ship to regular asteroid
+		if (this->regularAsteroid != nullptr) {
+			if (this->ship->checkCollision(this->regularAsteroid)) {
+				this->gameOver = true;
+			}
+		}
+		if (this->regularEnemyShip != nullptr) {
+			if (this->ship->checkCollision(this->regularEnemyShip)) {
+				this->gameOver = true;
+			}
+		}
+		if (this->shootingEnemyShip != nullptr) {
+			if (this->ship->checkCollision(this->shootingEnemyShip)) {
+				this->gameOver = true;
+			}
+		}
+		if (this->strongAsteroid != nullptr) {
+			if (this->ship->checkCollision(this->strongAsteroid)) {
+				this->gameOver = true;
+				
+			}
+		}
+		if (this->box != nullptr) {
+			if (this->ship->checkCollision(this->box)) {
+				this->boxCount++;
+				
+
+				this->ship->toggleNuclear();
+
+				delete this->box;
+				this->box = nullptr;
+			}
+		}
+	}
 
 
 
@@ -142,12 +183,25 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 		if (this->regularEnemyShip != nullptr) {
 			if (this->shipBullet->checkCollision(regularEnemyShip)) {
 				//todo:add explosion
+				this->generateExplosion(this->regularEnemyShip, this->totalTime,ExplosionConstants::ExplosionType::Big);
+
+				this->regularEnemyCount++;
 
 				delete this->regularEnemyShip;
 				this->regularEnemyShip = nullptr;
 
-				delete this->shipBullet;
-				this->shipBullet = nullptr;
+				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+				}
+				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
+					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
+					this->generateShrapnelEffect(nearbyObjects);
+
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+				}
+
 
 				this->ship->toggleFire();
 
@@ -158,12 +212,25 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 		if (this->regularAsteroid != nullptr) {
 			if (this->shipBullet->checkCollision(regularAsteroid)) {
 				//todo:add explosion
+				this->generateExplosion(this->regularAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
 
+				this->regularAsteroidCount++;
+
+				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+				}
+				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
+					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
+					this->generateShrapnelEffect(nearbyObjects);
+	
+
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+				}
+				
 				delete this->regularAsteroid;
 				this->regularAsteroid = nullptr;
-
-				delete this->shipBullet;
-				this->shipBullet = nullptr;
 
 				this->ship->toggleFire();
 
@@ -175,15 +242,40 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 		if (this->strongAsteroid != nullptr) {
 			if (this->shipBullet->checkCollision(strongAsteroid)) {
 				//todo:add explosion
-				this->strongAsteroid->reduceHealth();
-				if (this->strongAsteroid->isDead()) {
+				
+
+				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
+					this->strongAsteroid->reduceHealth();
+					
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+
+					if (this->strongAsteroid->isDead()) {
+						this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
+						this->strongAsteroidCount++;
+
+						this->ship->captureStrongBullet(this->totalTime);
+
+
+						delete this->strongAsteroid;
+						this->strongAsteroid = nullptr;
+					}
+				}
+				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
+					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
+					this->generateShrapnelEffect(nearbyObjects);
+					this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
+
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+
+					this->strongAsteroidCount++;
+
+					this->ship->captureStrongBullet(this->totalTime);
+
 					delete this->strongAsteroid;
 					this->strongAsteroid = nullptr;
 				}
-
-				delete this->shipBullet;
-				this->shipBullet = nullptr;
-
 				this->ship->toggleFire();
 
 				return SpaceGameConstants::CollisionTypes::BulletToStrongAsteroid;
@@ -195,15 +287,48 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 		if (this->shootingEnemyShip != nullptr) {
 			if (this->shipBullet->checkCollision(shootingEnemyShip)) {
 				//todo:add explosion
+				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
+					this->shootingEnemyShip->reduceHealth();
 
-				this->shootingEnemyShip->reduceHealth();
-				if (this->shootingEnemyShip->isDead()) {
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+
+					if (this->shootingEnemyShip->isDead()) {
+
+						this->generateExplosion(this->shootingEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Big);
+						this->shootingEnemyCount++;
+
+						this->ship->captureStrongBullet(this->totalTime);
+
+						delete this->shootingEnemyShip;
+						this->shootingEnemyShip = nullptr;
+
+						for (auto& ob : this->enemyBullets) {
+							if (ob != nullptr) {
+								delete ob;
+								ob = nullptr;
+							}
+						}
+						this->enemyBullets = std::vector<RegularBullet*>{};
+					}
+				}
+				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
+					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
+					
+					this->generateShrapnelEffect(nearbyObjects);
+					this->generateExplosion(this->shootingEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Big);
+					
+			
+
+					delete this->shipBullet;
+					this->shipBullet = nullptr;
+
+					this->shootingEnemyCount++;
+					this->ship->captureStrongBullet(this->totalTime);
+
 					delete this->shootingEnemyShip;
 					this->shootingEnemyShip = nullptr;
 				}
-
-				delete this->shipBullet;
-				this->shipBullet = nullptr;
 
 				this->ship->toggleFire();
 
@@ -214,6 +339,20 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 	}
 
 	//shooting enemy bullet to ship
+	if (this->enemyBullets.size() > 0) {
+		for (auto& ob : this->enemyBullets) {
+			if (ob != nullptr) {
+				if (ob->objectInSpace()) {
+					if (ob->checkCollision(this->ship)) {
+						delete ob;
+						ob = nullptr;
+						this->ship->reduceHealth();
+					}
+				}
+			}
+		}
+	}
+
 
 	return SpaceGameConstants::CollisionTypes::NAC;
 }
@@ -224,87 +363,187 @@ void SpaceGame::generateTargets(float elapsedTime) {
 		this->lastRegularEnemyTime = this->totalTime;
 		this->regularEnemyShip = new RegularEnemyShip();
 	}
-	else {
-		if (this->regularEnemyShip != nullptr) {
-			this->regularEnemyShip->move(elapsedTime);
-		}
-	}
+
 
 	//regular asteroid generation
 	if (this->regularAsteroid == nullptr && (this->totalTime - this->lastRegularAsteroidTime) > SpaceGameConstants::REGEN_REG_ASTEROID) {
 		this->lastRegularAsteroidTime = this->totalTime;
 		this->regularAsteroid = new RegularAsteroid();
 	}
-	else {
-		if (this->regularAsteroid != nullptr) {
-			this->regularAsteroid->move(elapsedTime);
-		}
-	}
+
 
 	//strong asteroid generation
 	if (this->strongAsteroid == nullptr && (this->totalTime - this->lastStrongAsteroidTime) > SpaceGameConstants::REGEN_ST_ASTEROID) {
 		this->lastStrongAsteroidTime = this->totalTime;
 		this->strongAsteroid = new StrongAsteroid();
 	}
-	else {
-		if (this->strongAsteroid != nullptr) {
-			this->strongAsteroid->move(elapsedTime);
-		}
-	}
+
 
 	//shooting enemy generation
 	if (this->shootingEnemyShip == nullptr && (this->totalTime - this->lastShootingEnemyTime) > SpaceGameConstants::REGEN_STG_ENEMY) {
 		this->lastShootingEnemyTime = this->totalTime;
 		this->shootingEnemyShip = new ShootingEnemyShip();
 	}
-	else {
-		if (this->shootingEnemyShip != nullptr) {
-			this->shootingEnemyShip->move(this->ship, elapsedTime);
-		}
-	}
+
 
 	//shooting enemy bullet generation
 	//@todo:
+	if (this->shootingEnemyShip != nullptr && this->shootingEnemyShip->canFire(this->totalTime)) {
+		this->enemyBullets.push_back(this->shootingEnemyShip->fireBullet(this->totalTime));
+	}
 
 
 	//box generation
-	if (this->box == nullptr && this->boxCount - this->lastBoxCount >= SpaceGameConstants::REGEN_BOX && this->boxCount % 5 == 0) {
-		this->lastBoxCount = this->boxCount;
+	if (this->box == nullptr && (this->regularEnemyCount + 2 * this->shootingEnemyCount) - this->lastBoxCount >= SpaceGameConstants::REGEN_BOX) {
+		this->lastBoxCount = this->regularEnemyCount + 2* this->shootingEnemyCount;
 		this->box = new Box();
 	}
 
 }
 
+void SpaceGame::generateExplosion(SpaceObject* target, float currentTime, ExplosionConstants::ExplosionType type)
+{
+	this->explosions.push_back(new Explosion(target, this->totalTime,type));
+}
 
-void SpaceGame::updateShips() {
+void SpaceGame::generateNuclearEffect()
+{
+	if (this->regularAsteroid != nullptr) {
+		this->generateExplosion(this->regularAsteroid, this->totalTime,  ExplosionConstants::ExplosionType::Big);
+
+		delete this->regularAsteroid;
+		this->regularAsteroid = nullptr;
+	}
+	if (this->regularEnemyShip != nullptr) {
+		this->generateExplosion(this->regularEnemyShip, this->totalTime,  ExplosionConstants::ExplosionType::Big);
+		
+		delete this->regularEnemyShip;
+		this->regularEnemyShip = nullptr;
+	}
+	if(this->strongAsteroid != nullptr){
+		this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
+
+		delete this->strongAsteroid;
+		this->strongAsteroid = nullptr;
+	}
+	if (this->shootingEnemyShip != nullptr) {
+		this->generateExplosion(this->shootingEnemyShip, this->totalTime,  ExplosionConstants::ExplosionType::Big);
+	
+		delete this->shootingEnemyShip;
+		this->shootingEnemyShip = nullptr;
+	}
+}
+
+void SpaceGame::generateShrapnelEffect(std::vector<SpaceObject*> effected) {
+	for (auto& ob : effected) {
+		if (ob != nullptr) {
+			if (ob == this->regularEnemyShip) {
+				this->generateExplosion(this->regularEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Big);
+				this->regularEnemyCount++;
+
+				delete this->regularEnemyShip;
+				this->regularEnemyShip = nullptr;
+			}
+			if (ob == this->regularAsteroid) {
+				this->generateExplosion(this->regularAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
+				this->regularAsteroidCount++;
+
+				delete this->regularAsteroid;
+				this->regularAsteroid = nullptr;
+			}
+			if (ob == this->strongAsteroid) {
+				this->strongAsteroid->reduceHealth();
+				if (this->strongAsteroid->isDead()) {
+					this->generateExplosion(this->strongAsteroid,this->totalTime, ExplosionConstants::ExplosionType::Big);
+
+					this->strongAsteroidCount++;
+					this->ship->captureStrongBullet(this->totalTime);
+
+					delete this->strongAsteroid;
+					this->strongAsteroid = nullptr;
+				}
+				else if(this->strongAsteroid != nullptr){
+					this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Small);
+				}
+			}
+			if (ob == this->shootingEnemyShip) {
+				this->shootingEnemyShip->reduceHealth();
+				if (this->shootingEnemyShip->isDead()) {
+					this->generateExplosion(this->shootingEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Big);
+
+					this->shootingEnemyCount++;
+					this->ship->captureStrongBullet(this->totalTime);
+
+					delete this->shootingEnemyShip;
+					this->shootingEnemyShip = nullptr;
+				}
+				else if(this->shootingEnemyShip != nullptr){
+					this->generateExplosion(this->shootingEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Small);
+				}
+			}
+		}
+
+		effected.clear();
+	}
+
+}
+
+
+void SpaceGame::updateShips(float elapsedTime) {
 	if (this->regularEnemyShip != nullptr) {
 		if (!(this->regularEnemyShip->objectInSpace())) {
 			delete this->regularEnemyShip;
 			this->regularEnemyShip = nullptr;
+		}else{
+			this->regularEnemyShip->move(elapsedTime);
+
 		}
+
 	}
 
 	if (this->shootingEnemyShip != nullptr) {
 		if (!(this->shootingEnemyShip->objectInSpace())) {
 			delete this->shootingEnemyShip;
 			this->shootingEnemyShip = nullptr;
+
+			for (auto& ob : this->enemyBullets) {
+				if (ob != nullptr) {
+					delete ob;
+					ob = nullptr;
+				}
+			}
+			this->enemyBullets = std::vector<RegularBullet*>{};
 		}
+		else {
+			this->shootingEnemyShip->move(this->ship, elapsedTime);
+		}
+	}
+	if (this->ship->isDead()) {
+		this->gameOver = true;
 	}
 
 }
 
-void SpaceGame::updateAsteroids() {
+void SpaceGame::updateAsteroids(float elapsedTime) {
 	if (this->regularAsteroid != nullptr) {
 		if (!(this->regularAsteroid->objectInSpace())) {
 			delete this->regularAsteroid;
 			this->regularAsteroid = nullptr;
 		}
+		else {
+			this->regularAsteroid->move(elapsedTime);
+		}
 	}
 
 	if (this->strongAsteroid != nullptr) {
 		if (!(this->strongAsteroid->objectInSpace())) {
+			this->gameOver = true;
+
 			delete this->strongAsteroid;
 			this->strongAsteroid = nullptr;
+		}
+		else {
+			this->strongAsteroid->move(elapsedTime);
 		}
 	}
 }
@@ -318,13 +557,52 @@ void SpaceGame::updateBullets(float elapsedTime) {
 
 			this->ship->toggleFire();
 		}
+		else {
+			this->shipBullet->move(elapsedTime);
+		}
+	}
+	//todo:enemy bullets
+	for (auto& ob : enemyBullets) {
+		if (ob != nullptr) {
+			ob->move(elapsedTime);
+			if (!ob->objectInSpace()) {
+				if (this->shootingEnemyShip != nullptr) {
+					this->shootingEnemyShip->reduceCount();
+				}
+				delete ob;
+				ob = nullptr;
+			}
+		}
 	}
 }
 
+void SpaceGame::updateExplosions() {
+	std::vector<Explosion*> temp{};
+
+	for (auto& ob : this->explosions) {
+		if (ob->isTimeCompleted(this->totalTime)) {
+			delete ob;
+			ob = nullptr;
+		}
+		else {
+			temp.push_back(ob);
+		}
+	}
+
+	this->explosions.clear();
+	this->explosions = temp;
+
+}
+
 void SpaceGame::updateAll(float elapsedTime) {
-	this->updateAsteroids();
-	this->updateShips();
+	
+	this->updateAsteroids(elapsedTime);
+	
+	this->updateShips(elapsedTime);
+
 	this->updateBullets(elapsedTime);
+
+	this->updateExplosions();
 
 	this->checkCollisions();
 }
@@ -341,7 +619,16 @@ void SpaceGame::drawObjects() {
 
 void SpaceGame::generateObjectList() {
 	this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
-
+	for (auto& ob : this->explosions) {
+		if (ob != nullptr) {
+			this->objects.push_back(ob);
+		}
+	}
+	for (auto& ob : this->enemyBullets) {
+		if (ob != nullptr) {
+			this->objects.push_back(ob);
+		}
+	}
 }
 
 
@@ -394,7 +681,14 @@ bool SpaceGame::OnUserUpdate(float fElapsedTime) {
 
 				this->objects.clear();
 
-				return true;
+
+				//@debug
+				//std::cout << this->box <<" - " << this->lastBoxCount<<" - "<<this->shootingEnemyCount<<"-"<<this->regularEnemyCount<<std::endl;
+				//if (this->strongAsteroid) {
+				//	std::cout << this->strongAsteroid->objectInSpace() <<"-" <<this->strongAsteroid->getX()<<"-"<<this->strongAsteroid->getY()<<std::endl;
+				//}
+
+				
 			}
 		}
 

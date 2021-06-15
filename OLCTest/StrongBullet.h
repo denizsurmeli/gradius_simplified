@@ -18,7 +18,6 @@ class StrongBullet :
 private:
 public:
     StrongBullet(MovingSpaceObject* refPoint,Direction direction);
-    void nearbyEnemies(std::vector<SpaceObject*> possibleTargets);
 
 };
 

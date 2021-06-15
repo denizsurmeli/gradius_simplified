@@ -21,6 +21,7 @@ protected:
 public:
 	SpaceObject();
 	SpaceObject(int x, int y, double d_x, double d_y, olc::Sprite* sprite);
+	double calculateDistance(SpaceObject* other);
 	explicit SpaceObject(const SpaceObject* ref);
 
 	virtual bool objectInSpace();

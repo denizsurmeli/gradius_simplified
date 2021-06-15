@@ -24,19 +24,6 @@
 
 int main()
 {
-	Box* b = new Box();
-	Explosion* exp = new Explosion(b,0);
-	RegularAsteroid* ra = new RegularAsteroid();
-	StrongAsteroid* sa = new StrongAsteroid();
-
-	Ship* ps = new Ship();
-	RegularEnemyShip* res = new RegularEnemyShip();
-	ShootingEnemyShip* ses = new ShootingEnemyShip();
-
-	RegularBullet* rb = new RegularBullet(ses,Direction::PX);
-	StrongBullet* sb = new StrongBullet(ps,Direction::PX);
-
-
 	SpaceGame game;
 	if (game.Construct(400, 400, 1, 1)) {
 		game.Start();

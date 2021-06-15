@@ -2,10 +2,10 @@
 #include "Asteroid.h"
 
 namespace StrongAsteroidConstants {
-    constexpr auto DIM_X = 30;
-    constexpr auto DIM_Y = 25;
+    constexpr auto DIM_X = 32;
+    constexpr auto DIM_Y = 27;
     constexpr auto SPEED = 10;
-    constexpr auto SPRITE_LOCATION = "Sprites/asteroid.png";
+    constexpr auto SPRITE_LOCATION = "Sprites/strongAsteroid.png";
     constexpr auto LIFE = 3;
 }
 class StrongAsteroid :

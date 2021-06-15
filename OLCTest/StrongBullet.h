@@ -8,7 +8,7 @@
 
 namespace StrongBulletConstants {
     constexpr auto SPEED = 250;
-    constexpr auto SPRITE_LOCATION = "Sprites/rbullet.png"; //@todo: change
+    constexpr auto SPRITE_LOCATION = "Sprites/strongBullet.png"; //@todo: change
 }
 
 

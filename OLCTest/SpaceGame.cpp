@@ -682,13 +682,6 @@ bool SpaceGame::OnUserUpdate(float fElapsedTime) {
 				this->objects.clear();
 
 
-				//@debug
-				//std::cout << this->box <<" - " << this->lastBoxCount<<" - "<<this->shootingEnemyCount<<"-"<<this->regularEnemyCount<<std::endl;
-				//if (this->strongAsteroid) {
-				//	std::cout << this->strongAsteroid->objectInSpace() <<"-" <<this->strongAsteroid->getX()<<"-"<<this->strongAsteroid->getY()<<std::endl;
-				//}
-
-				
 			}
 		}
 

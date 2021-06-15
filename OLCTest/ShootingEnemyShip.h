@@ -7,10 +7,10 @@
 namespace ShootingEnemyShipConstants {
     constexpr auto DIM_X = 30;
     constexpr auto DIM_Y = 40;
-    constexpr auto SPEED = 25;
+    constexpr auto SPEED = 15;
     constexpr auto REGEN_BULLET = 2;
     constexpr auto MAX_BULLET_COUNT = 3;
-    constexpr auto SPRITE_LOCATION = "Sprites/enemy.png"; //@todo->change these
+    constexpr auto SPRITE_LOCATION = "Sprites/shootingEnemy.png"; //@todo->change these
     constexpr auto LIFE = 2;
 }
 

@@ -104,7 +104,9 @@ void SpaceGame::listenKeyPress(double elapsedTime) {
 			//give the coordinates to box, check whether the click is eligible for nuclear power
 			if (this->box->checkMouseClick(GetMouseX(), GetMouseY())) {
 				//@TODO:
-				this->ship->toggleNuclear();
+				if (!this->ship->shipCanUseNuclear()) {
+					this->ship->toggleNuclear();
+				}
 
 				delete this->box;
 				this->box = nullptr;
@@ -166,8 +168,9 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 			if (this->ship->checkCollision(this->box)) {
 				this->boxCount++;
 				
-
-				this->ship->toggleNuclear();
+				if (!this->ship->shipCanUseNuclear()) {
+					this->ship->toggleNuclear();
+				}
 
 				delete this->box;
 				this->box = nullptr;
@@ -191,15 +194,19 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 				this->regularEnemyShip = nullptr;
 
 				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 				}
 				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
 					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
 					this->generateShrapnelEffect(nearbyObjects);
 
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 				}
 
 
@@ -217,16 +224,19 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 				this->regularAsteroidCount++;
 
 				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 				}
 				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
 					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
 					this->generateShrapnelEffect(nearbyObjects);
 	
-
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 				}
 				
 				delete this->regularAsteroid;
@@ -246,16 +256,15 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 
 				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
 					this->strongAsteroid->reduceHealth();
-					
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
-
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 					if (this->strongAsteroid->isDead()) {
 						this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
 						this->strongAsteroidCount++;
 
 						this->ship->captureStrongBullet(this->totalTime);
-
 
 						delete this->strongAsteroid;
 						this->strongAsteroid = nullptr;
@@ -266,12 +275,15 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 					this->generateShrapnelEffect(nearbyObjects);
 					this->generateExplosion(this->strongAsteroid, this->totalTime, ExplosionConstants::ExplosionType::Big);
 
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
 
 					this->strongAsteroidCount++;
 
 					this->ship->captureStrongBullet(this->totalTime);
+
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 
 					delete this->strongAsteroid;
 					this->strongAsteroid = nullptr;
@@ -289,9 +301,6 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 				//todo:add explosion
 				if (this->shipBullet->getType() == BulletConstants::BulletType::Regular) {
 					this->shootingEnemyShip->reduceHealth();
-
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
 
 					if (this->shootingEnemyShip->isDead()) {
 
@@ -311,6 +320,11 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 						}
 						this->enemyBullets = std::vector<RegularBullet*>{};
 					}
+
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 				}
 				else if (this->shipBullet->getType() == BulletConstants::BulletType::Strong) {
 					std::vector<SpaceObject*> nearbyObjects = this->shipBullet->getNearbyEnemies(candidates);
@@ -319,9 +333,10 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 					this->generateExplosion(this->shootingEnemyShip, this->totalTime, ExplosionConstants::ExplosionType::Big);
 					
 			
-
-					delete this->shipBullet;
-					this->shipBullet = nullptr;
+					if (this->shipBullet != nullptr) {
+						delete this->shipBullet;
+						this->shipBullet = nullptr;
+					}
 
 					this->shootingEnemyCount++;
 					this->ship->captureStrongBullet(this->totalTime);
@@ -394,7 +409,7 @@ void SpaceGame::generateTargets(float elapsedTime) {
 
 
 	//box generation
-	if (this->box == nullptr && (this->regularEnemyCount + 2 * this->shootingEnemyCount) - this->lastBoxCount >= SpaceGameConstants::REGEN_BOX) {
+	if (this->box == nullptr && (this->regularEnemyCount + 2 * this->shootingEnemyCount) - this->lastBoxCount >= SpaceGameConstants::REGEN_BOX && !(this->ship->shipCanUseNuclear())) {
 		this->lastBoxCount = this->regularEnemyCount + 2* this->shootingEnemyCount;
 		this->box = new Box();
 	}

@@ -6,7 +6,7 @@
 namespace BulletConstants {
     constexpr auto DIM_X = 5;
     constexpr auto DIM_Y = 4;
-    constexpr auto RADIUS = 50;
+    constexpr auto RADIUS = 100;
     enum class BulletType {
         Regular = 1,
         Strong = 2

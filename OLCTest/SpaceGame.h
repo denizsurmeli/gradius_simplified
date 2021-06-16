@@ -98,7 +98,6 @@ public:
 	void updateAsteroids(float elapsedTime);
 	void updateAll(float elapsedTime);
 
-	void render();
 
 
 

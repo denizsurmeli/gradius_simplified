@@ -78,6 +78,9 @@ void SpaceGame::endScreen() {
 	DrawString(50, 250, "PRESS E TO EXIT");
 }
 
+/*
+	Listens key presses from the user, takes the possible action
+*/
 void SpaceGame::listenKeyPress(double elapsedTime) {
 	//User ship movement(up,down,right,left)
 	if (GetKey(olc::W).bHeld) {
@@ -372,6 +375,11 @@ SpaceGameConstants::CollisionTypes SpaceGame::checkCollisions() {
 	return SpaceGameConstants::CollisionTypes::NAC;
 }
 
+/*
+	Generates auto targets(Objects like Asteroids and EnemyShips are
+	generated automatically with random coordinates.) and handling of them
+	@param fElapsedTime: time taken for displacement
+*/
 void SpaceGame::generateTargets(float elapsedTime) {
 	//regular enemy ship generation
 	if (this->regularEnemyShip == nullptr && (this->totalTime - this->lastRegularEnemyTime) > SpaceGameConstants::REGEN_REG_ENEMY) {
@@ -503,6 +511,19 @@ void SpaceGame::generateShrapnelEffect(std::vector<SpaceObject*> effected) {
 
 }
 
+void SpaceGame::generateObjectList() {
+	this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
+	for (auto& ob : this->explosions) {
+		if (ob != nullptr) {
+			this->objects.push_back(ob);
+		}
+	}
+	for (auto& ob : this->enemyBullets) {
+		if (ob != nullptr) {
+			this->objects.push_back(ob);
+		}
+	}
+}
 
 void SpaceGame::updateShips(float elapsedTime) {
 	if (this->regularEnemyShip != nullptr) {
@@ -622,8 +643,6 @@ void SpaceGame::updateAll(float elapsedTime) {
 	this->checkCollisions();
 }
 
-
-
 void SpaceGame::drawObjects() {
 	for (auto ob : this->objects) {
 		if (ob != nullptr) {
@@ -632,19 +651,6 @@ void SpaceGame::drawObjects() {
 	}
 }
 
-void SpaceGame::generateObjectList() {
-	this->objects = std::vector<SpaceObject*>{ ship, box, regularEnemyShip, shootingEnemyShip, regularAsteroid, strongAsteroid, shipBullet };
-	for (auto& ob : this->explosions) {
-		if (ob != nullptr) {
-			this->objects.push_back(ob);
-		}
-	}
-	for (auto& ob : this->enemyBullets) {
-		if (ob != nullptr) {
-			this->objects.push_back(ob);
-		}
-	}
-}
 
 
 
@@ -692,7 +698,7 @@ bool SpaceGame::OnUserUpdate(float fElapsedTime) {
 
 				this->totalTime += fElapsedTime;
 
-				std::this_thread::sleep_for(std::chrono::milliseconds(10));
+				std::this_thread::sleep_for(std::chrono::milliseconds(8));
 
 				this->objects.clear();
 

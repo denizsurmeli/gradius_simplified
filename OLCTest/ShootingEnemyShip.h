@@ -11,7 +11,7 @@ namespace ShootingEnemyShipConstants {
     constexpr auto REGEN_BULLET = 2;
     constexpr auto MAX_BULLET_COUNT = 3;
     constexpr auto SPRITE_LOCATION = "Sprites/shootingEnemy.png"; //@todo->change these
-    constexpr auto LIFE = 2;
+    constexpr auto LIFE = 3;
 }
 
 class ShootingEnemyShip :
